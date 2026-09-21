@@ -1,0 +1,8 @@
+services:
+  pc-admin:
+    build:
+      context: .
+    image: gv-im/pc-admin:local
+    ports:
+      - "${PC_ADMIN_PORT:-8080}:80"
+    restart: unless-stopped
