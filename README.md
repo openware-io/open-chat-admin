@@ -1,4 +1,4 @@
-# gv-chat-admin
+# open-chat-admin
 
 GV Chat 平台 PC 管理后台（Vue 3 + Element Plus + Vite）。
 
