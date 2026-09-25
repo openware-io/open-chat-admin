@@ -1,6 +1,6 @@
 # open-chat-admin
 
-GV Chat 平台 PC 管理后台（Vue 3 + Element Plus + Vite）。
+OpenIM 平台 PC 管理后台（Vue 3 + Element Plus + Vite）。
 
 ## 功能概览
 

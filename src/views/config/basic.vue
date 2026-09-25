@@ -51,12 +51,12 @@ import { reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const defaultConfig = {
-  appName: 'GV Chat',
+  appName: 'OpenIM',
   appVersion: '1.0.5',
   supportUrl: 'https://support.gvchat.com',
   privacyUrl: 'https://gvchat.com/privacy',
   termsUrl: 'https://gvchat.com/terms',
-  announcement: '欢迎使用 GV Chat 即时通讯平台！',
+  announcement: '欢迎使用 OpenIM 即时通讯平台！',
   announcementEnabled: true,
   maintenanceMode: false,
   maintenanceMessage: '系统维护中，预计 30 分钟后恢复...',

@@ -138,7 +138,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title || 'GV Chat'} - 管理后台`
+  document.title = `${to.meta.title || 'OpenIM'} - 管理后台`
   const token = localStorage.getItem('admin_token')
   if (!to.meta.public && !token) {
     next('/login')

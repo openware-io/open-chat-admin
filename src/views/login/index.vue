@@ -3,7 +3,7 @@
     <div class="login-card">
       <div class="login-header">
         <el-icon :size="40" color="#409eff"><ChatDotRound /></el-icon>
-        <h1>GV Chat 管理后台</h1>
+        <h1>OpenIM 管理后台</h1>
         <p>即时通讯后台管理系统</p>
       </div>
       <el-form ref="formRef" :model="form" :rules="rules" @keyup.enter="handleLogin">

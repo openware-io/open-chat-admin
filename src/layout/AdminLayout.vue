@@ -3,7 +3,7 @@
     <el-aside :width="isCollapse ? '64px' : '220px'" class="sidebar">
       <div class="logo" @click="router.push('/')">
         <el-icon :size="24"><ChatDotRound /></el-icon>
-        <span v-show="!isCollapse" class="logo-text">GV Chat</span>
+        <span v-show="!isCollapse" class="logo-text">OpenIM</span>
       </div>
       <el-menu
         :default-active="route.path"
