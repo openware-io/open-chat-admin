@@ -159,7 +159,9 @@ const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 const isCollapse = ref(false)
-const unifiedEntryUrl = import.meta.env.VITE_UNIFIED_ENTRY_URL || 'https://saas-admin.dev.example.com'
+// Kind and production ingress both expose the SaaS console below the same origin.
+// An environment variable can still override this for a separately hosted deployment.
+const unifiedEntryUrl = import.meta.env.VITE_UNIFIED_ENTRY_URL || new URL('/saas/', window.location.origin).toString()
 /* realtime notifications are intentionally not enabled for the REST-only admin v1 client */
 /*
   const token = localStorage.getItem('admin_token')
