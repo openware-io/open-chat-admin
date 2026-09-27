@@ -75,8 +75,15 @@
         <el-table-column label="失败原因" width="150" show-overflow-tooltip>
           <template #default="{ row }">{{ row.errorCode || '-' }}</template>
         </el-table-column>
-        <el-table-column label="详情" min-width="200" show-overflow-tooltip>
-          <template #default="{ row }">{{ detailText(row.detailJson) }}</template>
+        <el-table-column label="详情" min-width="260">
+          <template #default="{ row }">
+            <el-tooltip placement="top-start" effect="light" :show-after="250" popper-class="audit-detail-popper">
+              <template #content>
+                <pre class="audit-detail-popover">{{ detailText(row.detailJson) }}</pre>
+              </template>
+              <div class="audit-detail-preview">{{ detailPreview(row.detailJson) }}</div>
+            </el-tooltip>
+          </template>
         </el-table-column>
       </el-table>
 
@@ -209,13 +216,35 @@ function resourceTypeText(value) {
   return RESOURCE_TYPES[value] || value
 }
 
-/* 详情按 JSON 单行展示：审计 detail 是结构化数据，折叠展示会让人误以为「没有内容」。 */
+/* 详情在表格中保持紧凑预览，悬浮层展示完整结构化内容。 */
 function detailText(detail) {
   if (detail === null || detail === undefined) {
     return '-'
   }
   if (typeof detail === 'string') {
-    return detail
+    const value = detail.trim()
+    if (!value) {
+      return '-'
+    }
+    try {
+      return JSON.stringify(JSON.parse(value), null, 2)
+    } catch {
+      return value
+    }
+  }
+  try {
+    return JSON.stringify(detail)
+  } catch {
+    return '-'
+  }
+}
+
+function detailPreview(detail) {
+  if (detail === null || detail === undefined) {
+    return '-'
+  }
+  if (typeof detail === 'string') {
+    return detail.trim() || '-'
   }
   try {
     return JSON.stringify(detail)
@@ -242,5 +271,48 @@ onMounted(loadData)
   margin: 12px 0 0;
   font-size: 13px;
   color: var(--el-text-color-secondary);
+}
+
+.audit-detail-preview {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--el-text-color-regular);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 20px;
+}
+
+</style>
+
+<style>
+.el-popper.is-light.audit-detail-popper {
+  width: min(680px, calc(100vw - 48px));
+  max-width: min(680px, calc(100vw - 48px));
+  padding: 0;
+  color: var(--el-text-color-primary);
+  background: var(--el-bg-color-overlay);
+  border-color: var(--el-border-color-light);
+  border-radius: 8px;
+  box-shadow: var(--el-box-shadow-light);
+}
+
+.el-popper.is-light.audit-detail-popper .el-popper__arrow::before {
+  background: var(--el-bg-color-overlay);
+  border-color: var(--el-border-color-light);
+}
+
+.audit-detail-popper .audit-detail-popover {
+  box-sizing: border-box;
+  width: 100%;
+  max-height: min(360px, calc(100vh - 96px));
+  margin: 0;
+  padding: 14px 16px;
+  overflow: auto;
+  color: var(--el-text-color-primary);
+  font: 12px/1.65 var(--el-font-family);
+  text-align: left;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 </style>
