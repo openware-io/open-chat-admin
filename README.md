@@ -1,6 +1,6 @@
 # open-chat-admin
 
-OpenIM 平台 PC 管理后台（Vue 3 + Element Plus + Vite）。
+Open IM 平台 PC 管理后台（Vue 3 + Element Plus + Vite）。
 
 ## 功能概览
 
