@@ -124,7 +124,7 @@ const OPERATOR_TYPES = { PLATFORM: '平台', TENANT: '租户' }
 /*
  * 资源类型（iam_audit_log.resource_type）中文词表。
  *
- * 口径对齐 SaaS 后台的 `AUDIT_RESOURCE_TYPE_TEXT`（gv_saas_admin/src/constants/terms.js）：
+ * 口径对齐 SaaS 后台的 `AUDIT_RESOURCE_TYPE_TEXT`（open-saas-admin/src/constants/terms.js）：
  * 同一种资源在两套后台里必须叫同一个中文名，本仓不再新造第二套词表。
  * 但两边**取值形态不同**——IM 后台实测落库的是（按行数，共 261 行）：
  *   res_resource 45 / ktv_session 42 / reservation 41 / ord_order_item 37 /
