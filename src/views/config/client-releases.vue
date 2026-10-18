@@ -14,7 +14,7 @@
         <el-table-column prop="id" label="ID" width="70"/>
         <el-table-column prop="platform" label="平台" width="80"/>
         <el-table-column prop="channel" label="渠道" width="80"/>
-        <el-table-column prop="version" label="版本" width="90"/>
+        <el-table-column prop="releaseVersion" label="版本" width="90"/>
         <el-table-column prop="buildNumber" label="构建号" width="80"/>
         <el-table-column label="状态" width="110">
           <template #default="{ row }"><el-tag :type="statusType(row.status)" size="small">{{ statusText(row.status) }}</el-tag></template>
@@ -63,7 +63,7 @@
           <el-col :span="12"><el-form-item label="渠道"><el-select v-model="createForm.channel"><el-option label="Internal" value="internal"/><el-option label="Beta" value="beta"/><el-option label="Stable" value="stable"/></el-select></el-form-item></el-col>
         </el-row>
         <el-row :gutter="16">
-          <el-col :span="12"><el-form-item label="版本"><el-input v-model="createForm.version" placeholder="1.2.3"/></el-form-item></el-col>
+          <el-col :span="12"><el-form-item label="版本"><el-input v-model="createForm.releaseVersion" placeholder="1.2.3"/></el-form-item></el-col>
           <el-col :span="12"><el-form-item label="构建号"><el-input-number v-model="createForm.buildNumber" :min="1"/></el-form-item></el-col>
         </el-row>
         <el-form-item label="更新说明"><el-input v-model="createForm.releaseNotes" type="textarea"/></el-form-item>
@@ -103,7 +103,7 @@
           <el-col :span="12"><el-form-item label="渠道"><el-select v-model="form.channel" disabled><el-option label="Internal" value="internal"/><el-option label="Beta" value="beta"/><el-option label="Stable" value="stable"/></el-select></el-form-item></el-col>
         </el-row>
         <el-row :gutter="16">
-          <el-col :span="12"><el-form-item label="版本"><el-input v-model="form.version" placeholder="1.2.3"/></el-form-item></el-col>
+          <el-col :span="12"><el-form-item label="版本"><el-input v-model="form.releaseVersion" placeholder="1.2.3"/></el-form-item></el-col>
           <el-col :span="12"><el-form-item label="构建号"><el-input-number v-model="form.buildNumber" :min="1"/></el-form-item></el-col>
         </el-row>
         <el-form-item label="更新说明"><el-input v-model="form.releaseNotes" type="textarea"/></el-form-item>
@@ -185,8 +185,8 @@ function httpUploadEdit(opt) {
 const editingId = ref(null)
 const submitTarget = ref(null)
 
-const createForm = reactive({ mode: 'direct', platform: 'android', channel: 'stable', version: '', buildNumber: 1, releaseNotes: '', packageType: 'google-play', storeUrl: '', downloadUrl: '', sha256: '', sizeBytes: null, scheduledAt: null, grayPercent: 100 })
-const form = reactive({ platform: 'android', channel: 'stable', version: '', buildNumber: 1, releaseNotes: '', storeUrl: '', packageType: 'google-play', downloadUrl: '', sha256: '', sizeBytes: null })
+const createForm = reactive({ mode: 'direct', platform: 'android', channel: 'stable', releaseVersion: '', buildNumber: 1, releaseNotes: '', packageType: 'google-play', storeUrl: '', downloadUrl: '', sha256: '', sizeBytes: null, scheduledAt: null, grayPercent: 100 })
+const form = reactive({ platform: 'android', channel: 'stable', releaseVersion: '', buildNumber: 1, releaseNotes: '', storeUrl: '', packageType: 'google-play', downloadUrl: '', sha256: '', sizeBytes: null })
 const submitForm = reactive({ percent: 100, scheduledAt: null, reason: '发布审核通过' })
 
 function pad(n) {
@@ -240,7 +240,7 @@ function handlePageSizeChange() {
   load()
 }
 function openCreate() {
-  Object.assign(createForm, { mode: 'direct', platform: platform.value, channel: channel.value, version: '', buildNumber: 1, releaseNotes: '', packageType: defaultPackageType(platform.value), storeUrl: '', downloadUrl: '', sha256: '', sizeBytes: null, scheduledAt: null, grayPercent: 100 })
+  Object.assign(createForm, { mode: 'direct', platform: platform.value, channel: channel.value, releaseVersion: '', buildNumber: 1, releaseNotes: '', packageType: defaultPackageType(platform.value), storeUrl: '', downloadUrl: '', sha256: '', sizeBytes: null, scheduledAt: null, grayPercent: 100 })
   createVisible.value = true
 }
 // 校验制品字段；返回 { valid, artifact }。
@@ -260,7 +260,7 @@ function buildArtifact(f) {
   return { store, artifact: { architecture: 'universal', packageType: f.packageType, downloadUrl: f.downloadUrl.trim(), sha256: f.sha256.trim(), sizeBytes: f.sizeBytes } }
 }
 async function createSubmit() {
-  if (!/^\d+\.\d+\.\d+([+-][0-9A-Za-z.-]+)?$/.test(createForm.version) || !createForm.releaseNotes.trim()) {
+  if (!/^\d+\.\d+\.\d+([+-][0-9A-Za-z.-]+)?$/.test(createForm.releaseVersion) || !createForm.releaseNotes.trim()) {
     ElMessage.warning('请填写 SemVer 版本和更新说明')
     return
   }
@@ -276,7 +276,7 @@ async function createSubmit() {
     const payload = {
       platform: createForm.platform,
       channel: createForm.channel,
-      version: createForm.version,
+      releaseVersion: createForm.releaseVersion,
       buildNumber: createForm.buildNumber,
       releaseNotes: createForm.releaseNotes,
       storeUrl: built.store ? createForm.storeUrl.trim() : null,
@@ -304,11 +304,11 @@ function openEdit(row) {
   editingId.value = row.id
   const art = (row.artifacts && row.artifacts[0]) || {}
   const pkg = art.packageType || defaultPackageType(row.platform)
-  Object.assign(form, { platform: row.platform, channel: row.channel, version: row.version, buildNumber: row.buildNumber, releaseNotes: row.releaseNotes || '', storeUrl: row.storeUrl || '', packageType: pkg, downloadUrl: art.downloadUrl || '', sha256: art.sha256 || '', sizeBytes: art.sizeBytes ?? null })
+  Object.assign(form, { platform: row.platform, channel: row.channel, releaseVersion: row.releaseVersion, buildNumber: row.buildNumber, releaseNotes: row.releaseNotes || '', storeUrl: row.storeUrl || '', packageType: pkg, downloadUrl: art.downloadUrl || '', sha256: art.sha256 || '', sizeBytes: art.sizeBytes ?? null })
   draftVisible.value = true
 }
 async function saveDraft() {
-  if (!/^\d+\.\d+\.\d+([+-][0-9A-Za-z.-]+)?$/.test(form.version) || !form.releaseNotes.trim()) {
+  if (!/^\d+\.\d+\.\d+([+-][0-9A-Za-z.-]+)?$/.test(form.releaseVersion) || !form.releaseNotes.trim()) {
     ElMessage.warning('请填写 SemVer 版本和更新说明')
     return
   }
@@ -320,7 +320,7 @@ async function saveDraft() {
     const payload = {
       platform: form.platform,
       channel: form.channel,
-      version: form.version,
+      releaseVersion: form.releaseVersion,
       buildNumber: form.buildNumber,
       releaseNotes: form.releaseNotes,
       storeUrl: built.store ? form.storeUrl.trim() : null,
