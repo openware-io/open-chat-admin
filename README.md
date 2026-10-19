@@ -1,5 +1,7 @@
 # open-chat-admin
 
+[中文](README.md) | [English](README.en.md)
+
 Open IM 平台 PC 管理后台（Vue 3 + Element Plus + Vite）。
 
 ## 功能概览
