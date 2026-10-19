@@ -2,8 +2,8 @@
   <el-container class="admin-layout">
     <el-aside :width="isCollapse ? '64px' : '220px'" class="sidebar">
       <div class="logo" @click="router.push('/')">
-        <el-icon :size="24"><ChatDotRound /></el-icon>
-        <span v-show="!isCollapse" class="logo-text">OpenIM</span>
+        <img class="logo-mark" src="/favicon.svg" alt="Open Chat" />
+        <span v-show="!isCollapse" class="logo-text">Open Chat</span>
       </div>
       <el-menu
         :default-active="route.path"
@@ -214,6 +214,13 @@ function handleCommand(cmd) {
 
 .logo-text {
   white-space: nowrap;
+}
+
+.logo-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: block;
 }
 
 .sidebar-menu {
