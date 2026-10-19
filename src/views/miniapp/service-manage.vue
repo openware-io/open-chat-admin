@@ -181,6 +181,9 @@
             show-word-limit
             placeholder="H5 / 小程序路径 / 完整 URL"
           />
+          <div style="font-size: 12px; color: #909399; line-height: 1.5; margin-top: 4px">
+            可填相对路径，如 <code>/a380/#/service/hotel</code>；客户端会按当前 API 域名解析，避免把本地或生产域名写死。
+          </div>
         </el-form-item>
         <el-form-item label="小程序介绍">
           <el-input
